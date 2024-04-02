@@ -63,6 +63,7 @@ try:
         new_val += readLine(R3, ["7","8","9"])
         new_val += readLine(R4, ["*","0","#"])
         
+        # prevents spamming that happens but also prevents a repeated number to be valid
         if len(str_input) < 1 or new_val != str_input[-1]:
             str_input += new_val
         time.sleep(0.1)
@@ -78,11 +79,11 @@ try:
                     fount_string = True
                     print(i)
                     kit.continuous_servo[i].throttle = 1
-                    time.sleep(2)
-                    kit.continuous_servo[i].throttle = stop_values[i]
                     time.sleep(1)
+                    kit.continuous_servo[i].throttle = stop_values[i]
+                    time.sleep(0.5)
                     kit.continuous_servo[i].throttle = -1
-                    time.sleep(2)
+                    time.sleep(1)
                     turn_motor = False
                     str_input = ""
                     break
