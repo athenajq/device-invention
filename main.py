@@ -4,7 +4,7 @@ import time
 
 # set up servos
 kit = ServoKit(channels=16)
-stop_values = [-0.05, -0.02, 0.06, 0.01, 0,0]
+stop_values = [-0.02, -0.02, 0.06, 0.02, -0.05, 0]
 motor_values = ["123", "456", "789", "987", "654", "321"]
 str_input = ""
 global turn_motor
