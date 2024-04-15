@@ -4,7 +4,7 @@ import time
 
 # set up servos
 kit = ServoKit(channels=16)
-stop_values = [-0.02, -0.02, 0.06, 0.02, -0.05, 0]
+stop_values = [0.06,-0.02,-0.03, 0.02, -0.05, 0]
 motor_values = ["123", "456", "789", "987", "654", "321"]
 str_input = ""
 global turn_motor
@@ -66,6 +66,7 @@ try:
         # prevents spamming that happens but also prevents a repeated number to be valid
         if len(str_input) < 1 or new_val != str_input[-1]:
             str_input += new_val
+            print(str_input)
         time.sleep(0.1)
         
         if len(str_input) > 0 and str_input[-1] == "#":
@@ -79,7 +80,7 @@ try:
                     fount_string = True
                     print(i)
                     kit.continuous_servo[i].throttle = 1
-                    time.sleep(1)
+                    time.sleep(2)
                     kit.continuous_servo[i].throttle = stop_values[i]
                     time.sleep(0.5)
                     kit.continuous_servo[i].throttle = -1
