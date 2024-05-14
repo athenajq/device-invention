@@ -1,11 +1,15 @@
 from adafruit_servokit import ServoKit
 import RPi.GPIO as GPIO
 import time
+import board
+import neopixel
+pixels = neopixel.NeoPixel(board.D18, 30)
+
 
 # set up servos
 kit = ServoKit(channels=16)
-stop_values = [0.06,-0.02,-0.03, 0.02, -0.05, 0]
-motor_values = ["123", "456", "789", "987", "654", "321"]
+stop_values = [0.06,-0.02,0, -0.02, -0.05, 0]
+motor_values = ["123", "456", "789", "987"]
 str_input = ""
 global turn_motor
 turn_motor = False
@@ -53,7 +57,7 @@ def readLine(line, characters):
         val =  characters[2]
     GPIO.output(line, GPIO.LOW)
     return val
-
+pixels.fill((50, 50, 50))
 try:
     while True:
         # call the readLine function for each row of the keypad
@@ -73,6 +77,7 @@ try:
             str_input= str_input[:-1]
             turn_motor = True
         if turn_motor:
+            pixels.fill((0,255,0))
             found_string = False
             print(str_input)
             for i in range(len(motor_values)):
@@ -87,15 +92,23 @@ try:
                     time.sleep(1)
                     turn_motor = False
                     str_input = ""
+                    pixels.fill((50,50,50))
                     break
             if found_string == False:
                 str_input = ""
                 turn_motor = False
+                for i in range(10):
+                    pixels.fill((255,0,0))
+                    time.sleep(0.1)
+                    pixels.fill((0,0,0))
+                    time.sleep(0.1)
+                pixels.fill((50,50,50))
         # stop servos
         for i in range(6):
             if not turn_motor:
                 kit.continuous_servo[i].throttle = stop_values[i]
 except KeyboardInterrupt:
+    pixels.fill((255,0,0))
     print("\nApplication stopped!")
     
 
